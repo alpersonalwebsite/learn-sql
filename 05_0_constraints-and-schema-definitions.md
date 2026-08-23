@@ -25,6 +25,7 @@ CREATE TABLE Users (
 - Automatically creates a unique index.
 
 ```sql
+-- check: fragment
 ID INT PRIMARY KEY
 
 PRIMARY KEY (ID, SiteID)
@@ -38,12 +39,14 @@ PRIMARY KEY (ID, SiteID)
 - Prevents invalid data entry in the child table.
 
 ```sql
+-- check: fragment
 FOREIGN KEY (UserID) REFERENCES Users(ID)
 ```
 
 Optional behaviors:
 
 ```sql
+-- check: fragment
 ON DELETE CASCADE
 ON UPDATE SET NULL
 ```
@@ -55,10 +58,12 @@ ON UPDATE SET NULL
 Ensures all values in a column or set of columns are distinct.
 
 ```sql
+-- check: fragment
 Email VARCHAR(255) UNIQUE
 ```
 
 ```sql
+-- check: fragment
 UNIQUE (SiteID, Email)
 ```
 
@@ -69,10 +74,12 @@ UNIQUE (SiteID, Email)
 Restricts the values that can be inserted.
 
 ```sql
+-- check: fragment
 CHECK (Age >= 18)
 ```
 
 ```sql
+-- check: fragment
 CHECK (Status IN ('Active', 'Inactive'))
 ```
 
@@ -83,10 +90,12 @@ CHECK (Status IN ('Active', 'Inactive'))
 Provides a default value when none is supplied.
 
 ```sql
+-- check: fragment
 CreatedAt DATETIME DEFAULT GETDATE()
 ```
 
 ```sql
+-- check: fragment
 IsActive BIT DEFAULT 1
 ```
 
@@ -97,6 +106,7 @@ IsActive BIT DEFAULT 1
 Ensures that a column cannot have NULL values.
 
 ```sql
+-- check: fragment
 Name VARCHAR(100) NOT NULL
 ```
 
@@ -108,10 +118,12 @@ Name VARCHAR(100) NOT NULL
 Automatically generates incrementing numbers.
 
 ```sql
+-- check: fragment
 ID INT IDENTITY(1,1) PRIMARY KEY  -- SQL Server
 ```
 
 ```sql
+-- check: fragment
 ID INT AUTO_INCREMENT PRIMARY KEY  -- MySQL
 ```
 

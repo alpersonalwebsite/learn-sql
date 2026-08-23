@@ -11,6 +11,7 @@
 | **Microsoft SQL Server** | Enterprise features, BI tools, Windows environments | Large enterprise apps, banking, government                    |
 | **Oracle DB**            | High-volume transactional systems                   | ERP, telecom, enterprise financials                           |
 | **SQLite**               | Lightweight, serverless, embedded database          | Mobile apps, desktop apps, testing                            |
+| **Microsoft Access**     | Single-user desktop databases, GUI-first            | Small office tools, prototypes, legacy internal apps          |
 
 ## 📦 NoSQL Databases (Non-Relational)
 

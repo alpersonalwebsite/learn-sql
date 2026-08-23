@@ -1,5 +1,17 @@
 # Most Common SQL Clauses
 
+Every example below refers to this table, so the queries in this file can be run rather than only
+read. `scripts/check_sql.py` loads it and executes them.
+
+users
+
+| id | name  | age | city   |
+|----|-------|-----|--------|
+| 1  | Alice | 34  | Lisbon |
+| 2  | Bob   | 17  | Porto  |
+| 3  | Carol | 28  | Lisbon |
+| 4  | David | 15  | Faro   |
+
 ## 🔍 Clauses Used in SELECT Statements
 
 - `FROM` – Specifies the table(s) to retrieve data from  
@@ -15,7 +27,23 @@
   Example: `SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 5;`
 
 - `ORDER BY` – Sorts the result set  
-  Example: `SELECT name FROM users ORDER BY name ASC;`
+  Example:
+  ```sql
+  SELECT name, age
+  FROM users
+  ORDER BY age DESC;
+  ```
+
+  | name  | age |
+  |-------|-----|
+  | Alice | 34  |
+  | Carol | 28  |
+  | Bob   | 17  |
+  | David | 15  |
+
+  This is the one clause whose result SEQUENCE is part of the answer. Without it a database may return
+  rows in any order it likes, so `scripts/check_sql.py` compares the rows of every other query as an
+  unordered set and compares this one position by position.
   or: `SELECT  account_id, total_amt_usd FROM orders ORDER By total_amt_usd DESC, account_id`
 
 - `LIMIT` – Limits the number of rows returned (MySQL, PostgreSQL)  
@@ -68,6 +96,13 @@
          CASE WHEN age >= 18 THEN 'Adult' ELSE 'Minor' END AS status
   FROM users;
   ```
+
+  | name  | status |
+  |-------|--------|
+  | Alice | Adult  |
+  | Bob   | Minor  |
+  | Carol | Adult  |
+  | David | Minor  |
 
 - `BETWEEN` – Checks if a value is within a range
   Example: `SELECT * FROM users WHERE age BETWEEN 18 AND 30;`
