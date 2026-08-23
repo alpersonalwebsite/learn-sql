@@ -1,0 +1,31 @@
+# The repository had none. Nothing here builds, so most of this is about what a reader's own
+# experiments leave behind: a scratch database from trying the samples out is the likely one.
+
+# Local databases and dumps. The checker uses an in-memory database and writes nothing, so anything
+# matching these came from a reader, not from `make check`.
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.sql.gz
+
+# Credentials. Both globs, because neither implies the other: `.env*` is a prefix glob and misses
+# `audit.env`, while `*.env` is a suffix glob and misses `.env.local`.
+.env*
+*.env
+credentials*
+secrets/
+*.pem
+*.key
+
+*.log
+__pycache__/
+.venv/
+venv/
+
+# Not a JavaScript project, and one line to be sure of it.
+node_modules/
+
+.idea/
+.vscode/
+.DS_Store
