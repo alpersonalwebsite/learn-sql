@@ -27,7 +27,23 @@ users
   Example: `SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 5;`
 
 - `ORDER BY` – Sorts the result set  
-  Example: `SELECT name FROM users ORDER BY name ASC;`
+  Example:
+  ```sql
+  SELECT name, age
+  FROM users
+  ORDER BY age DESC;
+  ```
+
+  | name  | age |
+  |-------|-----|
+  | Alice | 34  |
+  | Carol | 28  |
+  | Bob   | 17  |
+  | David | 15  |
+
+  This is the one clause whose result SEQUENCE is part of the answer. Without it a database may return
+  rows in any order it likes, so `scripts/check_sql.py` compares the rows of every other query as an
+  unordered set and compares this one position by position.
   or: `SELECT  account_id, total_amt_usd FROM orders ORDER By total_amt_usd DESC, account_id`
 
 - `LIMIT` – Limits the number of rows returned (MySQL, PostgreSQL)  

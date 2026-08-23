@@ -9,7 +9,6 @@ These are used when creating or altering tables to define the **structure**, **r
 Used within `CREATE TABLE` or `ALTER TABLE` statements.
 
 ```sql
--- check: fragment
 CREATE TABLE Users (
     ID INT,
     Name VARCHAR(100),

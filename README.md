@@ -6,7 +6,7 @@ constraints shape a schema, and a long walk through joins with worked examples.
 The joins document is the one to read if you only read one. Every join type has the same two sample
 tables, the query, and the rows it returns, and those rows are **checked by running the query** rather
 than typed from memory. That matters more than it sounds: when this was written the sample data said one
-thing and six result tables said another, and nothing could have caught it by reading.
+thing and three result tables said another, and nothing could have caught it by reading.
 
 ## Checking the SQL
 
@@ -23,7 +23,8 @@ found, on the version before this:
 - two queries that **did not run at all** against the schema defined a few lines above them
   (`USING (customer_id)` on a schema whose key is `id`, and a semi-join written against table and
   column names this repository never defines);
-- six result tables describing a product the sample data had been renamed away from;
+- three result tables and one prose sentence describing a product the sample data had been
+  renamed away from;
 - a sample table that was never named, so nothing said which table the query above it referred to.
 
 Blocks that cannot be executed say so on their first line, and the categories are kept apart because

@@ -8,7 +8,8 @@ be wrong and both are invisible on reading:
 1. The query does not run at all. Two in this repository did not, against the schema defined a few
    lines above them.
 2. The query runs and returns something other than what the document says it returns. The document's
-   own sample data changed at some point and six result tables were left describing the old data.
+   own sample data changed at some point and three result tables plus a prose sentence were left
+   describing the old data.
 
 HOW IT WORKS. Sample tables are parsed out of the markdown, loaded into an in-memory sqlite database,
 each ```sql block is executed, and the rows that come back are diffed against the result table that
@@ -16,10 +17,18 @@ follows it. Tables are scoped PER SECTION: a heading starts a fresh database see
 document-level tables plus any table defined under that heading. Without that, the two different
 `employees` tables in the joins document (one with manager_id, one with department_id) would collide.
 
-ROW ORDER IS NOT COMPARED unless the query has an ORDER BY. SQL does not promise an order without
-one, so a document that lists rows in a particular sequence is describing one possible output, not the
-only correct one. Comparing as multisets is the honest reading. Where a documented table is truncated
-with a `...` row, the listed rows are checked as a SUBSET and the real total is reported.
+ROW ORDER IS COMPARED ONLY WHEN THE QUERY HAS AN ORDER BY. Without one SQL promises nothing about
+order, so a document listing rows in a particular sequence is describing one possible output rather
+than the only correct one, and comparing as multisets is the honest reading. With an ORDER BY the
+sequence IS the claim, so it is compared position by position.
+
+That detection is a regex on the statement with comments stripped, which is a heuristic and not a
+parser: an ORDER BY inside a subquery would trip it, and no sample here has one. It is deliberately
+biased toward the strict comparison, because being too strict produces a failure to read while being
+too loose silently accepts a wrong sequence.
+
+Where a documented table is truncated with a `...` row, the listed rows are checked as a SUBSET and the
+real total is reported.
 
 SQLITE IS NOT EVERY DIALECT, and that limits what a failure here means. These notes cover MySQL,
 Postgres and SQL Server too, so a block using a dialect-specific function is expected to fail and says
@@ -33,6 +42,12 @@ so on its first line:
 Those are kept distinct rather than folded into one "skip", because they are different claims. A
 fragment IS valid SQL in the right context; a dialect block is valid SQL that sqlite cannot run; a
 notation block is not SQL at all and mislabelling it as ```sql is itself the defect.
+
+`dialect` has no users in this repository today. The two blocks that ARE dialect-specific
+(`IDENTITY(1,1)`, `AUTO_INCREMENT`) are column definitions, so `fragment` is the accurate marker for
+them and this one is waiting for a standalone statement that sqlite rejects on dialect grounds. Noted
+because the paragraph above argues these categories are distinct claims, and a category making no
+claim about anything should say so.
 
 `fails` is the opposite of a skip and the most useful of the four: a query shown in order to
 demonstrate an error is otherwise indistinguishable from a query that is simply broken, and this turns
@@ -306,6 +321,18 @@ def main() -> int:
                             "RESULT %s:%d  %d documented row(s) absent from the actual result "
                             "(truncated table; %d rows returned): %s"
                             % (path.name, table_line, len(missing), len(act_rows), missing[:3])
+                        )
+                    continue
+
+                bare = re.sub(r"--[^\n]*", "", sql)
+                ordered = re.search(r"\border\s+by\b", bare, re.IGNORECASE) is not None
+
+                if ordered:
+                    if doc_rows != act_rows:
+                        failures.append(
+                            "ORDER %s:%d  the query has an ORDER BY, so the sequence is the claim. "
+                            "documented %s, actual %s"
+                            % (path.name, table_line, doc_rows[:4], act_rows[:4])
                         )
                     continue
 

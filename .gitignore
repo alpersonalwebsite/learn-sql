@@ -13,6 +13,11 @@
 # `audit.env`, while `*.env` is a suffix glob and misses `.env.local`.
 .env*
 *.env
+
+# ...but the template is meant to be committed, and the prefix glob above would have swallowed it.
+# A negation has to come after the pattern it re-includes.
+!.env.example
+
 credentials*
 secrets/
 *.pem
@@ -22,6 +27,8 @@ secrets/
 __pycache__/
 .venv/
 venv/
+env/
+ENV/
 
 # Not a JavaScript project, and one line to be sure of it.
 node_modules/
