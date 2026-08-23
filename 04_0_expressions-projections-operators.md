@@ -23,6 +23,7 @@ Used to manipulate or combine text.
 - `FirstName + ' ' + LastName AS FullName`  
 - `CONCAT(city, ', ', state) AS Location`  
 - `SUBSTRING(name, 1, 3)`  
+- `UPPER(email)`  
 
 ---
 
@@ -97,6 +98,14 @@ Used to convert data from one type to another.
 
 - CAST(salary AS VARCHAR(10))
 - CONVERT(DATE, birthdate)
+
+---
+
+### Notes
+
+- These elements are **not statements or clauses** — they are expressions or parts of expressions.
+- Derived columns, aliases, and calculated fields fall into this group.
+- They are typically part of the **projection logic** in a `SELECT` query.
 
 ---
 

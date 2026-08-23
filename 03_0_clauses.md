@@ -1,5 +1,17 @@
 # Most Common SQL Clauses
 
+Every example below refers to this table, so the queries in this file can be run rather than only
+read. `scripts/check_sql.py` loads it and executes them.
+
+users
+
+| id | name  | age | city   |
+|----|-------|-----|--------|
+| 1  | Alice | 34  | Lisbon |
+| 2  | Bob   | 17  | Porto  |
+| 3  | Carol | 28  | Lisbon |
+| 4  | David | 15  | Faro   |
+
 ## 🔍 Clauses Used in SELECT Statements
 
 - `FROM` – Specifies the table(s) to retrieve data from  
@@ -68,6 +80,13 @@
          CASE WHEN age >= 18 THEN 'Adult' ELSE 'Minor' END AS status
   FROM users;
   ```
+
+  | name  | status |
+  |-------|--------|
+  | Alice | Adult  |
+  | Bob   | Minor  |
+  | Carol | Adult  |
+  | David | Minor  |
 
 - `BETWEEN` – Checks if a value is within a range
   Example: `SELECT * FROM users WHERE age BETWEEN 18 AND 30;`
